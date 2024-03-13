@@ -1,0 +1,21 @@
+{
+  "metadata": [
+    {
+      "description": 1,
+      "denom_units": [
+        {
+          "denom": "atok",
+          "exponent": 0
+        },
+        {
+          "denom": "tok",
+          "exponent": 18
+        }
+      ],
+      "base": "atok",
+      "display": "atok",
+      "name": "atok",
+      "symbol": "CMCX"
+    }
+  ]
+}
