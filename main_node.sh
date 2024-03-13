@@ -84,10 +84,10 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 
 	# Set base_fee in genesis
 	jq '.app_state["feemarket"]["params"]["base_fee"]="0"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["feemarket"]["params"]["min_gas_price"]="1000000000000.000000000000000000"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["feemarket"]["params"]["min_gas_price"]="0.001"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
 	# Set min_deposit for proposal in genesis
-	jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["amount"]="1000000000000000000000000"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["amount"]="1000000000000000000000"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 	jq '.app_state["gov"]["deposit_params"]["max_deposit_period"]="259200s"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 	jq '.app_state["gov"]["voting_params"]["voting_period"]="259200s"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
@@ -162,16 +162,16 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 
 	# Allocate genesis accounts (cosmos formatted addresses)
 	
-	tokd add-genesis-account ${KEYS[0]} 16000000000000000000000000000atok --keyring-backend $KEYRING --home "$HOMEDIR"
+	tokd add-genesis-account ${KEYS[0]} 10000000000000000000000000atok --keyring-backend $KEYRING --home "$HOMEDIR"
 	
 
 	# bc is required to add these big numbers
-	total_supply=$(echo "16000000000000000000000000000" | bc)
+	total_supply=$(echo "10000000000000000000000000" | bc)
 	jq -r --arg total_supply "$total_supply" '.app_state["bank"]["supply"][0]["amount"]=$total_supply' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
 
 	# Sign genesis transaction
-	tokd gentx ${KEYS[0]} 6400000000000000000000000atok --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"  --fees 200000000000000000atok --min-self-delegation 6400000
+	tokd gentx ${KEYS[0]} 1000000000000000000000atok --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"  --fees 20000atok --min-self-delegation 1000
 
 
 
